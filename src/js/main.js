@@ -2,16 +2,12 @@
  * @param {Object} config Stack configuration.
  * @returns {Object} An instance of Stack object.
  */
-const App = (config) => {
+const App = () => {
   let app;
-  //let eventEmitter;
-  //let stack;
-  //let init;
   let list;
 
   const construct = () => {
     app = {};
-    //eventEmitter = Sister();
     list = [
       {'type': 'Mansion','desc': 'This beautiful home in Point Grey is going for well over 2.4 Million. Start saving up for that down payment.','img': '1.jpg'},
       {'type': 'Shack','desc': 'This is definitely a shack','img': '2.jpg'},
@@ -38,8 +34,71 @@ const App = (config) => {
   };
 
   construct();
+
+  const Swing = () => {
+
+  }
+
+  const DOM = () => {
+    this.start;
+    this.finish;
+    this.message;
+    this.list;
+  }
+
+  const View = () => {
+
+  }
+
+  const Helper = () => {
+    this.addListener;
+  }
+
+  const Init = () => {
+
+  }
+
+  const Controller = () => {
+    this.play;
+    this.reset;
+    this.next;
+    this.like;
+    this.dislike;
+  }
 }
-  
+
+/**
+ * @param {Object} config Event Emitter .
+ * @returns {Object} An instance of the Event Emmitter object.
+ */
+const EventEmitter = () => {
+  const obj = {}
+
+  obj.events = {}
+
+  obj.on = (eventName, fn) => {
+    obj.events[eventName] = obj.event
+    obj.events[eventName].push(fn)
+  }
+  obj.off = (eventName, fn) => {
+    if (obj.events[eventName]) {
+      for (var i = 0; i < obj.events[eventName].length; i++) {
+        if (obj.events[eventName][i] === fn) {
+          obj.events[eventName].splice(i, 1)
+          break
+        }
+      }
+    }
+  }
+  obj.emit = (eventName, fn) => {
+    if (obj.events[eventName]) {
+      obj.events[eventName].forEach((fn) => { fn(data) })
+    }
+  }
+
+  return obj
+}
+
 console.log(list);
 
 document.addEventListener('DOMContentLoaded', () => {

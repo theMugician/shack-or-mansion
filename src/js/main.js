@@ -5,12 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
  * @param {Object} config Stack configuration.
  * @returns {Object} An instance of Stack object.
  */
-const App = (function() {
+const App = () => {
   let app;
-  let list;
+  let listings;
   const construct = () => {
     app = {};
-    list = [
+    listings = [
       {'type': 'Mansion','desc': 'This beautiful home in Point Grey is going for well over 2.4 Million. Start saving up for that down payment.','img': '1.jpg'},
       {'type': 'Shack','desc': 'This is definitely a shack','img': '2.jpg'},
       {'type': 'Shack','desc': 'This a Shack. There is now way Jim Pattison lives here','img': '3.jpg'},
@@ -68,30 +68,23 @@ const App = (function() {
     this.dislike;
   }
 
-  const Shuffle = (listings) => {
-    let shuffledListings = []
-    let listingsLength = listings.length
-    console.log(listingsLength)
-    for (let i = 0; i < listingsLength; i++) {
-      let shuffledListItem = false
-
-      while (shuffledListItem !== true) {
-        let newIndex = Math.floor(Math.random() * listingsLength)
-
-        if (!(shuffledListings[newIndex])) {
-          shuffledListings[newIndex] = listings[i]
-          shuffledListItem = true
-        }
-      }
+  const Shuffle = (deck) => {
+    let randomizedDeck = []
+    let array = deck.slice()
+    while (array.length !== 0) {
+      let rIndex = Math.floor(array.length * Math.random())
+      randomizedDeck.push(array[rIndex])
+      array.splice(rIndex, 1)
     }
-
-    return shuffledListings
+    return randomizedDeck
   }
 
-  let shuffledList = Shuffle(list)
+  let shuffledList = Shuffle(listings)
   console.log(shuffledList)
 
-})()
+}
+
+App();
 
 })
 /**

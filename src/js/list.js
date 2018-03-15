@@ -25,4 +25,4 @@ const List = () => {
   ]
   return list;
 }
-export default List
+module.exports = 'List';

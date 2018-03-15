@@ -1,11 +1,13 @@
+document.addEventListener('DOMContentLoaded', () => {
+
+
 /**
  * @param {Object} config Stack configuration.
  * @returns {Object} An instance of Stack object.
  */
-const App = () => {
+const App = (function() {
   let app;
   let list;
-
   const construct = () => {
     app = {};
     list = [
@@ -65,21 +67,48 @@ const App = () => {
     this.like;
     this.dislike;
   }
-}
 
+  const Shuffle = (listings) => {
+    let shuffledListings = []
+    let listingsLength = listings.length
+    console.log(listingsLength)
+    for (let i = 0; i < listingsLength; i++) {
+      let shuffledListItem = false
+
+      while (shuffledListItem !== true) {
+        let newIndex = Math.floor(Math.random() * listingsLength)
+
+        if (!(shuffledListings[newIndex])) {
+          shuffledListings[newIndex] = listings[i]
+          shuffledListItem = true
+        }
+      }
+    }
+
+    return shuffledListings
+  }
+
+  let shuffledList = Shuffle(list)
+  console.log(shuffledList)
+
+})()
+
+})
 /**
  * @param {Object} config Event Emitter .
  * @returns {Object} An instance of the Event Emmitter object.
  */
+ /*
 const EventEmitter = () => {
   const obj = {}
 
   obj.events = {}
 
   obj.on = (eventName, fn) => {
-    obj.events[eventName] = obj.event
+    obj.events[eventName] = obj.events[eventName] || []
     obj.events[eventName].push(fn)
   }
+
   obj.off = (eventName, fn) => {
     if (obj.events[eventName]) {
       for (var i = 0; i < obj.events[eventName].length; i++) {
@@ -90,6 +119,7 @@ const EventEmitter = () => {
       }
     }
   }
+
   obj.emit = (eventName, fn) => {
     if (obj.events[eventName]) {
       obj.events[eventName].forEach((fn) => { fn(data) })
@@ -99,11 +129,15 @@ const EventEmitter = () => {
   return obj
 }
 
-console.log(list);
+/**
+ * @param {Array} takes an array of listings.
+ * @returns {Array} A shuffled array of listing.
+ */
 
+/*
 document.addEventListener('DOMContentLoaded', () => {
   app.addEventListener('click', (e) => {
-    let item = e.target;
+    let item = e.target
   })
 })
 

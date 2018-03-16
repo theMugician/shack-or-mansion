@@ -243,7 +243,7 @@ p > a:visited, p > a:hover, p > a:active {
     transform: translate3d(0%, 0, 0) scale3d(1, 1, 1);
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden; }
-    #main li .list-homes__item {
+    #main li .listings__item {
       width: calc(100% - 20px);
       height: calc(100% - 20px);
       border-radius: 4px;
@@ -261,17 +261,17 @@ p > a:visited, p > a:hover, p > a:active {
       transition: transform 700ms ease, background 700ms ease; }
     #main li.active {
       z-index: 5; }
-      #main li.active .list-homes__item {
+      #main li.active .listings__item {
         display: list-item; }
     #main li.next {
       z-index: 2; }
-      #main li.next .list-homes__item {
+      #main li.next .listings__item {
         background: #F8F8F8;
         transform: scale(0.95) translate(0, 16px);
         display: list-item; }
     #main li.last {
       z-index: 1; }
-      #main li.last .list-homes__item {
+      #main li.last .listings__item {
         background: #EDEDED;
         transform: scale(0.9) translate(0, 32px);
         display: list-item; }

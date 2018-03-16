@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 /**
- * @param {Object} config Stack configuration.
- * @returns {Object} An instance of Stack object.
+ * @param {} NULL.
+ * @returns {Object} An instance of App object.
  */
 const App = () => {
   let app;
@@ -42,10 +42,14 @@ const App = () => {
   }
 
   const DOM = () => {
-    this.start;
-    this.finish;
-    this.message;
-    this.list;
+    let dom = {}
+
+    dom.start
+    dom.finish
+    dom.message
+    dom.firstItem = document.querySelector('.listings__pane--one');
+
+    return dom
   }
 
   const View = () => {
@@ -79,19 +83,20 @@ const App = () => {
     return randomizedDeck
   }
 
-  let shuffledList = Shuffle(listings)
-  console.log(shuffledList)
+  //Handler(DOM.firstItem)
+  Handler(DOM().firstItem)
 
 }
 
 App();
 
 })
+
 /**
- * @param {Object} config Event Emitter .
+ * @param {String} eventName.
+ * @param {Function} functionName.
  * @returns {Object} An instance of the Event Emmitter object.
  */
- /*
 const EventEmitter = () => {
   const obj = {}
 
@@ -122,6 +127,92 @@ const EventEmitter = () => {
   return obj
 }
 
+/**
+ * @param {DOM} takes the current pane.
+ * @returns {} NULL.
+ */
+
+const Handler = (item) => {
+
+  let clicked = {};
+  let moving = false;
+  let cx, cy, b, x, y;
+  let ctx = document.querySelector('.listings');
+
+  // Mouse events
+  item.addEventListener('mousedown', onMouseDown);
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onUp);
+
+  // Touch events 
+  item.addEventListener('touchstart', onTouchDown);
+  document.addEventListener('touchmove', onTouchMove);
+  document.addEventListener('touchend', onTouchEnd);
+
+  function onTouchDown(e) {
+    onDown(e.touches[0]);
+    e.preventDefault();
+  }
+
+  function onTouchMove(e) {
+    onMove(e.touches[0]);
+  }
+
+  function onTouchEnd(e) {
+    if (e.touches.length ==0) onUp(e.changedTouches[0]);
+  }
+
+  function onMouseDown(e) {
+    onDown(e);
+    e.preventDefault();
+  }
+
+  function onDown(e) {
+    //Get x,y coordinates of pointer related to square
+    calc(e);
+
+    moving = true;
+
+    clicked = {
+      x: x,
+      y: y,
+      cx: cx,
+      cy: cy,
+      //isMoving: !isResizing && canMove(),
+    };
+  }
+
+  function onMove(e) {
+    if(moving === true) {
+      // moving
+      item.style.top = (e.clientY - clicked.y - clicked.cy) + 'px';
+      item.style.left = (e.clientX - clicked.x - clicked.cx) + 'px';
+    }
+  }
+
+  function onUp(e) {
+    moving = false;
+  }
+
+  function calc(e) {
+    b = item.getBoundingClientRect();
+    ctxB = ctx.getBoundingClientRect();
+    // console.log('boundary', b.left);
+    // console.log('context', ctxB.left);
+    // console.log('screen', e.clientX);
+    //console.log('boundary', b.top);
+    // console.log('context', ctxB.left);
+    // console.log('screen', e.clientX);    cx = ctxB.left;
+    cy = ctxB.top;
+    cx = ctxB.left;
+    x = (e.clientX - cx) - (b.left - cx);
+    y = (e.clientY - cy) - (b.top - cy);
+    console.log(y)
+    //cx = e.clientX - ctxB.left;
+
+  }
+
+}
 /**
  * @param {Array} takes an array of listings.
  * @returns {Array} A shuffled array of listing.

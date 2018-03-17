@@ -83,7 +83,6 @@ const App = () => {
     return randomizedDeck
   }
 
-  //Handler(DOM.firstItem)
   Handler(DOM().firstItem)
 
 }
@@ -129,15 +128,18 @@ const EventEmitter = () => {
 
 /**
  * @param {DOM} takes the current pane.
+ * @param {DOM} context.
  * @returns {} NULL.
  */
+const Handler = (item, context) => {
 
-const Handler = (item) => {
-
-  let clicked = {};
-  let moving = false;
-  let cx, cy, b, x, y;
-  let ctx = document.querySelector('.listings');
+  let clicked = {}
+  let moving = false
+  let ctx = document.querySelector('.listings')
+  let cx, cy, ctxBoundary
+  let x, y, boundary
+  let direction, itemPosition
+  let clientHeight
 
   // Mouse events
   item.addEventListener('mousedown', onMouseDown);
@@ -182,34 +184,63 @@ const Handler = (item) => {
     };
   }
 
+  /**
+   * @param {number} fromX
+   * @returns {string} computed direction
+   */
+  const computeDirection = (position) => {
+    return position < 0 ? 'Left' : 'Right'
+  }
+
   function onMove(e) {
     if(moving === true) {
       // moving
-      item.style.top = (e.clientY - clicked.y - clicked.cy) + 'px';
-      item.style.left = (e.clientX - clicked.x - clicked.cx) + 'px';
+      itemPosition = e.clientX - clicked.x - clicked.cx
+      item.style.top = (e.clientY - clicked.y - clicked.cy) + 'px'
+      item.style.left = itemPosition + 'px'
+      item.style.transform = 'rotate(' + itemPosition/80 + 'deg)'
+      direction = computeDirection(itemPosition)
+      console.log(direction)
     }
   }
 
   function onUp(e) {
     moving = false;
+    if(itemPosition < -150 || itemPosition > 150) {
+      throwOut(e, direction)
+    } else {
+      throwIn(e)
+    }
+  }
+
+  function throwIn(e) {
+    item.style.top = '0'
+    item.style.left = '0'
+    item.style.transform = 'rotate(0deg)'
+    item.style.transition = 'all 150ms ease'
+  }
+
+  function throwOut(e, direction) {
+    clientHeight = document.body.clientHeight
+    clientHeight = clientHeight + 100 + 'px'
+    console.log(clientHeight)
+    if (direction === 'Left') {
+      //rotate(-60deg)
+      item.style.transform = 'translate(-400px, ' + clientHeight + ') rotate(-60deg)'
+      item.style.transition = 'transform 500ms ease-in-out'
+    } else {
+      item.style.transform = 'translate(400px, ' + clientHeight + ') rotate(60deg)'
+      item.style.transition = 'transform 500ms ease-in-out'
+    }
   }
 
   function calc(e) {
-    b = item.getBoundingClientRect();
-    ctxB = ctx.getBoundingClientRect();
-    // console.log('boundary', b.left);
-    // console.log('context', ctxB.left);
-    // console.log('screen', e.clientX);
-    //console.log('boundary', b.top);
-    // console.log('context', ctxB.left);
-    // console.log('screen', e.clientX);    cx = ctxB.left;
-    cy = ctxB.top;
-    cx = ctxB.left;
-    x = (e.clientX - cx) - (b.left - cx);
-    y = (e.clientY - cy) - (b.top - cy);
-    console.log(y)
-    //cx = e.clientX - ctxB.left;
-
+    boundary = item.getBoundingClientRect()
+    ctxBoundary = ctx.getBoundingClientRect()
+    cy = ctxBoundary.top
+    cx = ctxBoundary.left
+    x = (e.clientX - cx) - (boundary.left - cx)
+    y = (e.clientY - cy) - (boundary.top - cy)
   }
 
 }

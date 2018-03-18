@@ -94,6 +94,7 @@ App();
 /**
  * @param {String} eventName.
  * @param {Function} functionName.
+ * @param {String, Integer} data.
  * @returns {Object} An instance of the Event Emmitter object.
  */
 const EventEmitter = () => {
@@ -117,13 +118,37 @@ const EventEmitter = () => {
     }
   }
 
-  obj.emit = (eventName, fn) => {
+  obj.emit = (eventName, data) => {
     if (obj.events[eventName]) {
       obj.events[eventName].forEach((fn) => { fn(data) })
     }
   }
 
   return obj
+}
+
+/**
+ * @param {function} takes a list of observers.
+ * @returns {} NULL.
+ */
+const Observable = () => {
+  const obs = {}
+
+  obs.observers = []
+
+  obs.subscribe = (fn) => {
+    obs.observers.push(fn)
+  }
+
+  obs.unsubscribe = (fn) => {
+    obs.observers = obs.observers.filter(subcriber => subscriber !== fn)
+  }
+
+  obs.notify = (data) => {
+    obs.observers.forEach(observer => observer(data))
+  }
+
+  return obs
 }
 
 /**

@@ -6,10 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
  * @returns {Object} An instance of App object.
  */
 const App = () => {
-  let app;
-  let listings;
+  let app
+  let listings
+  let shuffledListings
+  let currentList
+
   const construct = () => {
-    app = {};
+    app = {}
     listings = [
       {'type': 'Mansion','desc': 'This beautiful home in Point Grey is going for well over 2.4 Million. Start saving up for that down payment.','img': '1.jpg'},
       {'type': 'Shack','desc': 'This is definitely a shack','img': '2.jpg'},
@@ -33,9 +36,10 @@ const App = () => {
       {'type': 'Shack','desc': 'Sometimes it can be confusing differentiating a shack from a mansion','img': '20.jpg'},
       {'type': 'Mansion','desc': 'ENDLESS POTENTIAL to build your dream home or update the current one','img': '21.jpg'}
     ]
-  };
+    shuffledListings = Shuffle(listings)
+  }
 
-  construct();
+  construct()
 
   const Swing = () => {
 
@@ -47,21 +51,87 @@ const App = () => {
     dom.start
     dom.finish
     dom.message
-    dom.firstItem = document.querySelector('.listings__pane--one');
+    dom.like
+    dom.dislike
+    dom.container
+    dom.firstItem = document.querySelector('.listings__pane--one')
 
     return dom
   }
 
-  const View = () => {
+  const State = () => {
+    let state = {}
+
+    state.start
+    state.finish
+    state.message
+    state.next
+    state.item = 0
+
+    return state
+  }
+
+  const Render = (template, parent) => {
+    let render = {}
+    const position = [ 'active', 'next', 'last' ]
+
+    render.init = () => {
+      //Initial
+
+      currentListings = shuffledListings
+        .splice(State.item, 3)
+        .forEach((listing, i) => { 
+          template(i, listing.image, listing.type, listing.desc, position[i]).append(parent) 
+        })
+    }
+    render.last = () => {
+      //RenderLast
+      currentListings
+        .splice(0, 1)
+        .push(shuffledListings[State.item + 2])
+      let last = currentListings[2]
+      template(num, last.image, last.type, last.desc, 'last').append(parent)
+    }
+
+    return render
+  }
+
+  const Update = () => {
+    //Thrown out item firstItem.remove()
+    //Remove eventListener for firstItem.remove()
+    State.item++
 
   }
 
-  const Helper = () => {
-    this.addListener;
+  const MessageTemplate = (i, image, type, desc) => {
+    return `
+      <li data-type='${type}' data-desc='${desc}' data-img='${image}' class='listings__pane-${i} ${position}'>
+        <div class='item'>
+          <div style='background-image: url(img/${image})' class='img'></div>
+          <div class='like'></div>
+          <div class='dislike'></div>
+        </div>
+      </li>
+    `
+  }
+
+  const ListTemplate = (i, image, type, desc) => {
+    return `
+      <li data-type='${type}' data-desc='${desc}' data-img='${image}' class='listings__pane-${i} ${position}'>
+        <div class='item'>
+          <div style='background-image: url(img/${image})' class='img'></div>
+          <div class='like'></div>
+          <div class='dislike'></div>
+        </div>
+      </li>
+    `
   }
 
   const Init = () => {
-
+    //Shuffle
+    //Render.init()
+    //Add eventListeners to list items
+    //Add eventListeners for Action Buttons
   }
 
   const Controller = () => {
@@ -248,9 +318,8 @@ const Handler = (item, context) => {
   function throwOut(e, direction) {
     clientHeight = document.body.clientHeight
     clientHeight = clientHeight + 100 + 'px'
-    console.log(clientHeight)
+    State.next
     if (direction === 'Left') {
-      //rotate(-60deg)
       item.style.transform = 'translate(-400px, ' + clientHeight + ') rotate(-60deg)'
       item.style.transition = 'transform 500ms ease-in-out'
     } else {

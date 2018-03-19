@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-
 /**
  * @param {} NULL.
  * @returns {Object} An instance of App object.
@@ -53,7 +52,7 @@ const App = () => {
     dom.message
     dom.like
     dom.dislike
-    dom.container
+    dom.container = document.querySelector('.listings')
     dom.firstItem = document.querySelector('.listings__pane--one')
 
     return dom
@@ -63,10 +62,18 @@ const App = () => {
     let state = {}
 
     state.start
+    //Play
+      state.message
+      //Slide Screen Message for swiped item
+      state.next
+      //Update item list array, add item--last to list of 3 items
     state.finish
-    state.message
-    state.next
+    //Restart Button
     state.item = 0
+
+    state.correct = 0
+
+    state.
 
     return state
   }
@@ -76,8 +83,7 @@ const App = () => {
     const position = [ 'active', 'next', 'last' ]
 
     render.init = () => {
-      //Initial
-
+      //Initial Render
       currentListings = shuffledListings
         .splice(State.item, 3)
         .forEach((listing, i) => { 
@@ -92,6 +98,13 @@ const App = () => {
       let last = currentListings[2]
       template(num, last.image, last.type, last.desc, 'last').append(parent)
     }
+    render.message = (choice) => {
+      //RenderMessage
+      let d = currentListings[0].dataset
+      let outcome = (d.type === choice ? 'Correct!' : 'Wrong!')
+      let className = (d.type === choice ? 'correct!' : 'error')
+      template(d.message, d.type, outcome, d.image)
+    }
 
     return render
   }
@@ -103,15 +116,14 @@ const App = () => {
 
   }
 
-  const MessageTemplate = (i, image, type, desc) => {
+  const MessageTemplate = (message, type, outcome, className, image) => {
     return `
-      <li data-type='${type}' data-desc='${desc}' data-img='${image}' class='listings__pane-${i} ${position}'>
-        <div class='item'>
-          <div style='background-image: url(img/${image})' class='img'></div>
-          <div class='like'></div>
-          <div class='dislike'></div>
-        </div>
-      </li>
+      <div class='message slide__message' style='background-image: url(img/${image});'>
+        <h1 class=${className}>${outcome}</h1>
+        <h2 class='Shack'>${type}</h2>
+        <p>${message}</p>
+        <button class='button button--next'>NEXT</button>
+      </div>
     `
   }
 

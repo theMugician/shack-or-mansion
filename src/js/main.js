@@ -49,7 +49,7 @@ const App = () => {
 
     dom.start
     dom.finish
-    dom.message
+    dom.message = document.querySelector('.slide__message')
     dom.like
     dom.dislike
     dom.container = document.querySelector('.listings')
@@ -87,7 +87,7 @@ const App = () => {
       currentListings = shuffledListings
         .splice(State.item, 3)
         .forEach((listing, i) => { 
-          template(i, listing.image, listing.type, listing.desc, position[i]).append(parent) 
+          parent.append(template(i, listing.image, listing.type, listing.desc, position[i]))
         })
     }
     render.last = () => {
@@ -96,14 +96,15 @@ const App = () => {
         .splice(0, 1)
         .push(shuffledListings[State.item + 2])
       let last = currentListings[2]
-      template(num, last.image, last.type, last.desc, 'last').append(parent)
+      parent.append(template(num, last.image, last.type, last.desc, 'last'))
     }
     render.message = (choice) => {
       //RenderMessage
       let d = currentListings[0].dataset
       let outcome = (d.type === choice ? 'Correct!' : 'Wrong!')
       let className = (d.type === choice ? 'correct!' : 'error')
-      template(d.message, d.type, outcome, d.image)
+      let display = ' display'
+      template(d.message, d.type, outcome, className, d.image, display)
     }
 
     return render
@@ -116,28 +117,37 @@ const App = () => {
 
   }
 
-  const MessageTemplate = (message, type, outcome, className, image) => {
-    return `
-      <div class='message slide__message' style='background-image: url(img/${image});'>
-        <h1 class=${className}>${outcome}</h1>
-        <h2 class='Shack'>${type}</h2>
-        <p>${message}</p>
-        <button class='button button--next'>NEXT</button>
-      </div>
-    `
+  const Template = () => {
+    let template = {}
+
+    template.message = (message, type, outcome, className, image, display = '') => {
+      return `
+        <div class='message slide__message${display}' style='background-image: url(img/${image});'>
+          <h1 class=${className}>${outcome}</h1>
+          <h2 class='Shack'>${type}</h2>
+          <p>${message}</p>
+          <button class='button button--next'>NEXT</button>
+        </div>
+      `
+    }
+
+    template.list = (i, image, type, desc) => {
+      return `
+        <li data-type='${type}' data-desc='${desc}' data-img='${image}' class='listings__pane-${i} ${position}'>
+          <div class='item'>
+            <div style='background-image: url(img/${image})' class='img'></div>
+            <div class='like'></div>
+            <div class='dislike'></div>
+          </div>
+        </li>
+      `
+    }
+
+    return template
   }
 
-  const ListTemplate = (i, image, type, desc) => {
-    return `
-      <li data-type='${type}' data-desc='${desc}' data-img='${image}' class='listings__pane-${i} ${position}'>
-        <div class='item'>
-          <div style='background-image: url(img/${image})' class='img'></div>
-          <div class='like'></div>
-          <div class='dislike'></div>
-        </div>
-      </li>
-    `
-  }
+  
+
 
   const Init = () => {
     //Shuffle

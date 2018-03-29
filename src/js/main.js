@@ -8,7 +8,6 @@ const App = () => {
   let app
   let listings
   let shuffledListings
-  let currentList
 
   const construct = () => {
     app = {}
@@ -35,14 +34,9 @@ const App = () => {
       {'type': 'Shack','desc': 'Sometimes it can be confusing differentiating a shack from a mansion','img': '20.jpg'},
       {'type': 'Mansion','desc': 'ENDLESS POTENTIAL to build your dream home or update the current one','img': '21.jpg'}
     ]
-    shuffledListings = Shuffle(listings)
   }
 
   construct()
-
-  const Swing = () => {
-
-  }
 
   const DOM = () => {
     let dom = {}
@@ -54,6 +48,8 @@ const App = () => {
     dom.dislike
     dom.container = document.querySelector('.listings')
     dom.firstItem = document.querySelector('.listings__pane--one')
+    dom.listings = []
+    dom.buttonNext = document.querySelector('button--next')
 
     return dom
   }
@@ -73,34 +69,30 @@ const App = () => {
 
     state.correct = 0
 
-    state.
+    state.currentListings = []
 
     return state
   }
 
-  const Render = (template, parent) => {
+  const Render = () => {
     let render = {}
     const position = [ 'active', 'next', 'last' ]
 
-    render.init = () => {
+    render.init = (template, parent, currentListings) => {
       //Initial Render
-      currentListings = shuffledListings
-        .splice(State.item, 3)
+      currentListings
         .forEach((listing, i) => { 
           parent.append(template(i, listing.image, listing.type, listing.desc, position[i]))
         })
     }
-    render.last = () => {
+    render.last = (template, parent, currentListings) => {
       //RenderLast
-      currentListings
-        .splice(0, 1)
-        .push(shuffledListings[State.item + 2])
       let last = currentListings[2]
       parent.append(template(num, last.image, last.type, last.desc, 'last'))
     }
-    render.message = (choice) => {
+    render.message = (current, choice) => {
       //RenderMessage
-      let d = currentListings[0].dataset
+      let d = current
       let outcome = (d.type === choice ? 'Correct!' : 'Wrong!')
       let className = (d.type === choice ? 'correct!' : 'error')
       let display = ' display'
@@ -111,10 +103,38 @@ const App = () => {
   }
 
   const Update = () => {
-    //Thrown out item firstItem.remove()
-    //Remove eventListener for firstItem.remove()
-    State.item++
+    const update = {}
 
+    update.onThrowOut = () => {
+      //Remove DOM element on throwout
+      DOM.listings[0].remove()
+
+      //Render Message
+      Render.message(State.currentListings[0].dataset, choice)
+
+      //Update DOM listings
+      DOM.listings = document.querySelectorAll('listings li')
+      DOM.listings[0].className('active')
+      DOM.listings[1].className('next')
+
+      //Add Handler to first item
+      Handler(DOM().listings[0], DOM.container)
+
+      //Update State
+      State.item++
+      State.currentListings
+        .splice(0, 1)
+        .push(shuffledListings[State.item + 2])
+
+      //Render last item
+      Render.last
+    }
+
+    update.onNext = () => {
+      DOM.message.className('')
+    }
+
+    return update
   }
 
   const Template = () => {
@@ -124,7 +144,7 @@ const App = () => {
       return `
         <div class='message slide__message${display}' style='background-image: url(img/${image});'>
           <h1 class=${className}>${outcome}</h1>
-          <h2 class='Shack'>${type}</h2>
+          <h2>${type}</h2>
           <p>${message}</p>
           <button class='button button--next'>NEXT</button>
         </div>
@@ -146,12 +166,10 @@ const App = () => {
     return template
   }
 
-  
-
-
   const Init = () => {
-    //Shuffle
-    //Render.init()
+    shuffledListings = Shuffle(listings)
+    State.currentListings = shuffledListings.splice(State.item, 3)
+    Render.init()
     //Add eventListeners to list items
     //Add eventListeners for Action Buttons
   }
@@ -360,26 +378,3 @@ const Handler = (item, context) => {
   }
 
 }
-/**
- * @param {Array} takes an array of listings.
- * @returns {Array} A shuffled array of listing.
- */
-
-/*
-document.addEventListener('DOMContentLoaded', () => {
-  app.addEventListener('click', (e) => {
-    let item = e.target
-  })
-})
-
- /**
- * @param {Object} config Stack configuration.
- * @returns {Object} An instance of Stack object.
- */
-
-
-
- /**
- * @param {Object} config Stack configuration.
- * @returns {Object} An instance of Stack object.
- */

@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
  * @returns {Object} An instance of App object.
  */
 const App = () => {
+  window.onerror = function(message, file, line, col, error){ console.log(arguments); }
   let app
   let listings
   let shuffledListings

@@ -10,11 +10,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 
-import { PolymerElement, html } from '@polymer/polymer/polymer-element';
+import { html } from '@polymer/lit-element';
 
 export const SharedStyles = html`
 
 <style>
+
 /*
 $color-base: #fff;
 $color-blue: #34495E;
@@ -22,7 +23,7 @@ $color-pass: #F54B5E;
 $color-like: #48D2A0;
 $color-para: #9B9B9B;
 $color-fb: #3b5998;
-*/
+
 
 @mixin mobile {
   @media (max-width: 480px) {
@@ -35,6 +36,8 @@ $color-fb: #3b5998;
     @content;
   }
 }
+*/
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -53,6 +56,8 @@ table, caption, tbody, tfoot, thead, tr, th, td {
   font-family: inherit;
   vertical-align: baseline;
 }
+
+
 /* remember to define focus styles! */
 :focus {
   outline: 0;
@@ -137,6 +142,7 @@ p > a {
   color: #4267B2;
   cursor: pointer;
 }
+
 p > a:visited, p > a:hover, p > a:active {
   text-decoration: none;
   color: #4267B2;
@@ -154,7 +160,7 @@ p > a:visited, p > a:hover, p > a:active {
   text-align: justify;
   padding: 2px 10px;
 }
-/*Fb share button End */
+// Fb share button End 
 .background {
   background: url("../img/home_1_lg.jpg") no-repeat scroll center center;
   background-size: cover;
@@ -188,7 +194,7 @@ p > a:visited, p > a:hover, p > a:active {
     left: -5px;
   }
 }
-/* Wrapper with padding */
+// Wrapper with padding
 
 .fb.btn {
   position: relative;
@@ -599,15 +605,15 @@ p > a:visited, p > a:hover, p > a:active {
   }
 }
 
-/* Image text */
+// Image text 
 
-/* Image rotation */
+// Image rotation 
 
-/* Like & dislike badge images */
+// Like & dislike badge images 
 
-/* Image container */
+// Image container 
 
-/* Action - buttons */
+// Action - buttons 
 
 .actions {
   width: 480px;
@@ -745,7 +751,7 @@ p > a:visited, p > a:hover, p > a:active {
       &.like button { color: $color-like; }
     }
   }
-/* jTinder images */
+// jTinder images 
 
 #tinderslide {
   .img {
@@ -783,11 +789,11 @@ p > a:visited, p > a:hover, p > a:active {
       background-size: cover;
     }
   }
-    */
+    
 
 }
 
-/* jTinder status text */
+// jTinder status text 
 
 #status {
   //text-align: center;

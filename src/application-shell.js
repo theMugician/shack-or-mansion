@@ -1,13 +1,13 @@
 
-import { PolymerElement, html } from '@polymer/polymer/polymer-element';
+import { LitElement, html }     from '@polymer/lit-element';
 import { SharedStyles }         from './shared-styles.js';
 
 import './my-navigation.js';
-import './my-wrapper.js';
+import './shack-mansion.js';
 import './main.js';
 
 
-export class ApplicationShell extends PolymerElement {
+export class ApplicationShell extends LitElement {
 
   static get is() { return 'application-shell'; }
 
@@ -30,7 +30,7 @@ export class ApplicationShell extends PolymerElement {
     console.log("hello");
   }
 
-  static get template() {
+  _render() {
     return html`
   
       <!-- STYLES -->
@@ -40,7 +40,7 @@ export class ApplicationShell extends PolymerElement {
       <my-navigation></my-navigation>
   
       <!-- CUSTOM WRAPPER HTML ELEMENT -->
-      <my-wrapper></my-wrapper>
+      <shack-mansion></shack-mansion>
   
       <!-- STATUS  -->
       <div id='status'></div>

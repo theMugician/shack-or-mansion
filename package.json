@@ -1,20 +1,11 @@
 {
   "name": "swiping-guessing-game",
   "version": "0.1.1",
-  "devDependencies": {
-    "grunt": "~0.4.4",
-    "grunt-contrib-jshint": "latest",
-    "jshint-stylish": "latest",
-    "grunt-contrib-uglify": "latest",
-    "grunt-contrib-concat": "latest",
-    "grunt-contrib-sass": "latest",
-    "grunt-contrib-cssmin": "latest",
-    "grunt-contrib-watch": "latest"
-  },
+  "devDependencies": {},
   "dependencies": {
-    "mocha": "^5.0.4"
-  },
-  "scripts": {
-    "test": "mocha"
+    "@webcomponents/webcomponentsjs": "^2.0.0",
+    "@polymer/lit-element": "^0.5.1",
+    "@polymer/polymer": "^3.0.2",
+    "pwa-helpers": "Polymer/pwa-helpers"
   }
 }
